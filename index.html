@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FileForge — CRUD Console</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="brand">
+      <span class="mark">v1.0</span>
+      <div>
+        <h1>FileForge</h1>
+        <div class="tagline">// a CRUD console for the filesystem</div>
+      </div>
+    </div>
+    <div class="stat">SESSION FILES <b id="fileCount">0</b><br>OPS RUN <b id="opCount">0</b></div>
+  </header>
+
+  <aside>
+    <div class="side-label"><span>Working directory</span><span>~/session</span></div>
+    <div class="filelist" id="fileList"></div>
+    <div class="empty-note">Files here live only for this session — nothing touches your real disk. Refresh to reset.</div>
+  </aside>
+
+  <main>
+    <div class="tabs">
+      <div class="tab active" data-tab="create"><span class="op-num">01</span>Create</div>
+      <div class="tab" data-tab="read"><span class="op-num">02</span>Read</div>
+      <div class="tab" data-tab="update"><span class="op-num">03</span>Update</div>
+      <div class="tab" data-tab="delete"><span class="op-num">04</span>Delete</div>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- CREATE -->
+      <div class="tabpanel" data-panel="create">
+        <div class="field">
+          <label>File name</label>
+          <input type="text" id="create-name" placeholder="notes.txt">
+        </div>
+        <button class="run" onclick="opCreate()">Create file</button>
+        <div class="readout" id="create-out"></div>
+      </div>
+
+      <!-- READ -->
+      <div class="tabpanel" data-panel="read" style="display:none;">
+        <div class="field">
+          <label>File name</label>
+          <input type="text" id="read-name" placeholder="notes.txt">
+        </div>
+        <button class="run" onclick="opRead()">Read file</button>
+        <div class="readout" id="read-out"></div>
+      </div>
+
+      <!-- UPDATE -->
+      <div class="tabpanel" data-panel="update" style="display:none;">
+        <div class="mode-switch">
+          <div class="mode-chip active" data-mode="rename" onclick="setUpdateMode('rename')">Rename</div>
+          <div class="mode-chip" data-mode="append" onclick="setUpdateMode('append')">Append</div>
+          <div class="mode-chip" data-mode="overwrite" onclick="setUpdateMode('overwrite')">Overwrite / Create</div>
+        </div>
+        <div class="field">
+          <label>File name</label>
+          <input type="text" id="update-name" placeholder="notes.txt">
+        </div>
+        <div class="field" id="update-newname-field" style="display:none;">
+          <label>New name</label>
+          <input type="text" id="update-newname" placeholder="notes-final.txt">
+        </div>
+        <div class="field" id="update-data-field">
+          <label>Data</label>
+          <textarea id="update-data" placeholder="Text to write..."></textarea>
+        </div>
+        <button class="run" onclick="opUpdate()">Run update</button>
+        <div class="readout" id="update-out"></div>
+      </div>
+
+      <!-- DELETE -->
+      <div class="tabpanel" data-panel="delete" style="display:none;">
+        <div class="field">
+          <label>File name</label>
+          <input type="text" id="delete-name" placeholder="notes.txt">
+        </div>
+        <button class="run danger" onclick="opDelete()">Delete file</button>
+        <div class="readout" id="delete-out"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="terminal">
+    <div class="terminal-head">
+      <div class="term-dot" style="background:#D9695F"></div>
+      <div class="term-dot" style="background:#E8A33D"></div>
+      <div class="term-dot" style="background:#7FB86B"></div>
+      <div class="terminal-title">session.log</div>
+    </div>
+    <div class="terminal-body" id="termBody">
+      <div class="term-line term-info">FileForge console ready. Every operation you run is echoed here, like a real shell session.</div>
+    </div>
+  </div>
+
+  <footer>built as a hands-on look at Python file I/O — create · read · update · delete</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
